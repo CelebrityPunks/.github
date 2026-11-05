@@ -325,11 +325,12 @@ def logo(img, t, dur):
     # the ouroboros: fades and scales in, turns slowly, embers rise behind it
     global _LOGO
     if _LOGO is None:
-        import make_logo
-        _LOGO = make_logo.draw_logo().resize((640, 640), Image.LANCZOS)
+        import os
+        src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logo", "ouroboros_4096.png")
+        _LOGO = Image.open(src).convert("RGBA").resize((800, 800), Image.LANCZOS)
     embers(img, t + 40, dur)
     k = ease(t / 2.5)
-    size = int(640 * (0.86 + 0.14 * k))
+    size = int(800 * (0.86 + 0.14 * k))
     lg = _LOGO.rotate(-t * 4, resample=Image.BICUBIC).resize((size, size), Image.LANCZOS)
     a = lg.split()[3].point(lambda v: int(v * k))
     img.paste(lg, (W // 2 - size // 2, 420 - size // 2), a)
