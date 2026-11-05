@@ -12,7 +12,11 @@ import random
 import subprocess
 import sys
 
+from multiprocessing import Pool
+
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
+import visuals
 
 W, H, FPS = 1920, 1080, 30
 BG = (8, 8, 9)
@@ -91,12 +95,30 @@ SCENES = [
 ]
 DURATION = 122.0
 
+# Background visual for each scene (same order as SCENES) and how bright it is
+# behind the text. All drawn procedurally in visuals.py.
+SCENE_BG = [
+    ("feed", 0.55), ("clones", 0.6), ("scan", 0.55), ("pulse", 1.0),
+    ("ink", 0.75), ("fp_draw", 0.7), ("fp_hold", 0.5), ("closing", 0.9),
+]
+
 # Pre-rendered film grain tiles (cheap, gives the black some texture)
 random.seed(7)
 GRAIN = []
 for _ in range(6):
     g = Image.effect_noise((W // 2, H // 2), 22).resize((W, H))
     GRAIN.append(g)
+
+
+def put_text(img, xy, text, f, color, a):
+    if a <= 0 or not text:
+        return
+    x, y = int(xy[0]), int(xy[1])
+    bb = f.getbbox(text)
+    w, h = bb[2] + 4, bb[3] + 4
+    mask = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(mask).text((0, 0), text, font=f, fill=int(255 * min(1, a)))
+    img.paste(Image.new("RGB", (w, h), color), (x, y), mask)
 
 
 def draw_scene(img, scene, t):
@@ -134,8 +156,7 @@ def draw_scene(img, scene, t):
             n = int(appear / 0.055)
             text_vis = text[:n]
             cursor_on = (int(appear * 2.5) % 2 == 0) and scene_alpha > 0.5
-            col = tuple(int(c * alpha + BG[i] * (1 - alpha)) for i, c in enumerate(ln["color"]))
-            draw.text((x, y), text_vis, font=f, fill=col)
+            put_text(img, (x, y), text_vis, f, ln["color"], alpha)
             if n <= len(text) and cursor_on:
                 cx = x + f.getlength(text_vis) + 8
                 draw.rectangle([cx, y + lh * 0.15, cx + 6, y + lh * 1.05], fill=EMBER)
@@ -156,22 +177,45 @@ def draw_scene(img, scene, t):
             k = ease(appear / 0.9)
             a = alpha * k
             dy = (1 - k) * 18
-            col = tuple(int(c * a + BG[i] * (1 - a)) for i, c in enumerate(ln["color"]))
-            draw.text((x, y + dy), text, font=f, fill=col)
+            put_text(img, (x, y + dy), text, f, ln["color"], a)
         y += lh + gap
+
+
+def _text_band():
+    # darken a soft horizontal band where the text sits
+    col = Image.new("L", (1, H))
+    for y in range(H):
+        d = (y - H / 2) / 260
+        col.putpixel((0, y), int(255 * (1 - 0.6 * math.exp(-d * d))))
+    return col.resize((W, H))
+
+
+TEXT_BAND = _text_band()
+BLACK = Image.new("RGB", (W, H), BG)
 
 
 def render_frame(i):
     t = i / FPS
     img = Image.new("RGB", (W, H), BG)
-    for sc in SCENES:
+    for idx, sc in enumerate(SCENES):
         if sc[0] <= t < sc[1]:
+            name, dim = SCENE_BG[idx]
+            dur = sc[1] - sc[0]
+            local = t - sc[0]
+            visuals.BACKGROUNDS[name](img, local, dur)
+            fade = ease(local / 0.8) * (1 - ease((t - (sc[1] - 1.0)) / 1.0))
+            img = Image.blend(BLACK, img, dim * fade)
+            img = Image.composite(img, BLACK, TEXT_BAND)
             draw_scene(img, sc, t)
     # subtle vignette + grain
     grain = GRAIN[i % len(GRAIN)]
     img = Image.blend(img, Image.merge("RGB", (grain, grain, grain)), 0.035)
     img = Image.composite(img, Image.new("RGB", (W, H), (0, 0, 0)), VIGNETTE)
     return img
+
+
+def _frame_bytes(i):
+    return render_frame(i).tobytes()
 
 
 def make_vignette():
@@ -218,10 +262,11 @@ def main():
         "-c:a", "aac", "-b:a", "192k", "-shortest", "-movflags", "+faststart", out,
     ]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
-    for i in range(n):
-        p.stdin.write(render_frame(i).tobytes())
-        if i % (FPS * 10) == 0:
-            print(f"  {i // FPS:>3}s / {int(DURATION)}s", flush=True)
+    with Pool() as pool:
+        for i, frame in enumerate(pool.imap(_frame_bytes, range(n), chunksize=8)):
+            p.stdin.write(frame)
+            if i % (FPS * 10) == 0:
+                print(f"  {i // FPS:>3}s / {int(DURATION)}s", flush=True)
     p.stdin.close()
     p.wait()
     print("done:", out)

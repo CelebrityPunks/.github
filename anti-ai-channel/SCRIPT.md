@@ -99,6 +99,23 @@ Because it does.
 
 ---
 
+## Visuals in the rendered video
+
+All drawn with code (`visuals.py`), with no stock footage and no AI imagery:
+
+| Section | Visual | What it means |
+|---|---|---|
+| Cold open | Endless feed of grey, faceless content cards, speeding up and glitching | The flood |
+| Art with no artist | One blank face copied until it fills the screen | Sameness, no one behind it |
+| Trained on our work | Colourful hand-drawn scribbles scanned into grey pixels | Human work absorbed |
+| Can't automate | A flat line that starts to beat like a heart | The human pulse |
+| Mistakes / effort / person | A wobbly hand-drawn ink line with orange ink blots | Imperfection is the point |
+| The promise | A fingerprint drawn ridge by ridge | Identity, a human mark |
+| 100% human | Fingerprint glowing with a heartbeat, embers rising | The promise held |
+| Close | Fading fingerprint + embers behind MADE BY HANDS | Sign-off |
+
+Best upgrade: intercut real footage of **your own hands** (writing, drawing, playing) between sections.
+
 ## Production notes
 
 - **Read this first: make it yours before you post it.** This draft was written with an AI assistant. The video says "100% human-written," so put the script into your own words (rewrite it, cut lines, add your own story) before you make that claim. If an anti-AI channel gets caught using AI, it rarely recovers. Treat this as a structure and starting point, not final copy.
