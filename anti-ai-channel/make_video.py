@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the "MADE BY HANDS" statement video (kinetic typography + ambient drone).
+"""Render the channel statement video (kinetic typography + ambient drone).
 
 Usage:  python3 make_video.py [output.mp4]
 Needs:  Pillow, ffmpeg on PATH.
@@ -78,37 +78,28 @@ SCENES = [
         L("The person.", 5.5, 110, FONT_BLACK, color=EMBER, style="slam"),
         L("That's the point.", 10.0, 64, FONT_LIGHT),
     ]),
-    # THE REVEAL
-    (76.0, 85.0, [
-        L("Something only a human could make.", 0.5, 80, FONT_BOLD, style="type"),
+    # THE STATEMENT
+    (76.0, 86.0, [
+        L("So ask yourself.", 0.5, 96, FONT_BOLD, style="type"),
     ]),
-    (86.0, 97.0, [
-        L("Except", 0.3, 96, FONT_LIGHT),
-        L("no human made this.", 2.0, 110, FONT_BLACK, color=EMBER, style="slam"),
-    ]),
-    (98.0, 109.0, [
-        L("The script. The visuals. The music.", 0.5, 76, FONT_BOLD),
-        L("All AI.", 3.5, 130, FONT_BLACK, color=EMBER, style="slam"),
-        L("Minutes, not months.", 6.5, 56, FONT_LIGHT, color=GREY),
-    ]),
-    (110.0, 121.0, [
-        L("And you felt something anyway.", 0.5, 84, FONT_BOLD, style="type"),
-        L("That's the problem.", 6.0, 84, FONT_BLACK, color=EMBER, style="slam"),
+    (87.0, 104.0, [
+        L("Who wrote this?", 0.5, 100, FONT_BLACK, style="slam"),
+        L("Who drew this?", 3.5, 100, FONT_BLACK, style="slam"),
+        L("Who made this?", 6.5, 100, FONT_BLACK, color=EMBER, style="slam"),
     ]),
     # CLOSE
-    (122.0, 136.0, [
-        L("MADE BY NO ONE.", 1.0, 170, FONT_BLACK, style="slam"),
-        L("An anti-AI channel. Made entirely by AI.", 5.0, 46, FONT_LIGHT, color=GREY),
+    (105.0, 120.0, [
+        L(" ", 0.0, 560),  # spacer: the ouroboros logo sits above the text
+        L("Subscribe. Stay human.", 4.0, 48, FONT_LIGHT, color=GREY),
     ]),
 ]
-DURATION = 138.0
+DURATION = 122.0
 
 # Background visual for each scene (same order as SCENES) and how bright it is
 # behind the text. All drawn procedurally in visuals.py.
 SCENE_BG = [
     ("feed", 0.55), ("clones", 0.6), ("scan", 0.55), ("pulse", 1.0),
-    ("ink", 0.75), ("fp_draw", 0.7), ("fp_glitch", 0.75), ("feed_fast", 0.45),
-    ("flatline", 1.0), ("closing", 0.9),
+    ("ink", 0.75), ("fp_draw", 0.7), ("fp_hold", 0.5), ("logo", 1.0),
 ]
 
 # Pre-rendered film grain tiles (cheap, gives the black some texture)
@@ -214,7 +205,8 @@ def render_frame(i):
             visuals.BACKGROUNDS[name](img, local, dur)
             fade = ease(local / 0.8) * (1 - ease((t - (sc[1] - 1.0)) / 1.0))
             img = Image.blend(BLACK, img, dim * fade)
-            img = Image.composite(img, BLACK, TEXT_BAND)
+            if name != "logo":
+                img = Image.composite(img, BLACK, TEXT_BAND)
             draw_scene(img, sc, t)
     # subtle vignette + grain
     grain = GRAIN[i % len(GRAIN)]
@@ -251,9 +243,8 @@ def audio_filter():
         "+0.10*sin(2*PI*110*t+0.3*sin(2*PI*0.2*t))"
     )
     # thumps: decaying 48Hz pulse once every 2.5s during the second half
-    thump = "if(gt(t,45)*lt(t,115),0.55*sin(2*PI*48*t)*exp(-9*mod(t-45,2.5)),0)"
-    beep = "if(gt(t,115.3)*lt(t,121),0.09*sin(2*PI*988*t),0)"
-    expr = f"({drone}+{thump}+{beep})*0.8"
+    thump = "if(gt(t,45),0.55*sin(2*PI*48*t)*exp(-9*mod(t-45,2.5)),0)"
+    expr = f"({drone}+{thump})*0.8"
     return (
         f"aevalsrc='{expr}|{expr}':s=48000:d={DURATION},"
         f"afade=t=in:st=0:d=4,afade=t=out:st={DURATION - 6}:d=6,"

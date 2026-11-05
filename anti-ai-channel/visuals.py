@@ -158,7 +158,7 @@ def _beat(u):
             + 0.22 * math.exp(-((u - 0.62) / 0.05) ** 2))
 
 
-def pulse(img, t, dur, flat_after=None):
+def pulse(img, t, dur):
     d = ImageDraw.Draw(img)
     base = H * 0.80
     speed = W / 4.2
@@ -172,7 +172,7 @@ def pulse(img, t, dur, flat_after=None):
         if wx > head or head - wx > W * 0.92:
             continue
         y = base
-        if wx > beat_start and (flat_after is None or wx < flat_after):
+        if wx > beat_start:
             u = ((wx - beat_start) / 330.0) % 1.0
             y -= 230 * _beat(u)
         age = (head - wx) / (W * 0.92)
@@ -314,42 +314,29 @@ def embers(img, t, dur):
 
 
 def closing(img, t, dur):
-    fingerprint_glitch(img, 5.0, dur)
-    img.paste(Image.blend(Image.new("RGB", (W, H), (8, 8, 9)), img,
-                          0.35 * (1 - ease((t - (dur - 5)) / 4))), (0, 0))
+    _draw_fp(img, 1.0, EMBER, 0.35 * (1 - ease((t - (dur - 5)) / 4)))
     embers(img, t + 40, dur)
 
 
-def flatline(img, t, dur):
-    # the heartbeat from earlier... until it stops
-    pulse(img, t + 6.0, dur, flat_after=W * 2.05)
+_LOGO = None
 
 
-def fingerprint_glitch(img, t, dur):
-    # the human fingerprint breaks down into machine pixels
-    layer = Image.new("RGB", (W, H), (8, 8, 9))
-    _draw_fp(layer, 1.0, EMBER)
-    k = ease((t - 1.6) / 3.0)
-    if k > 0:
-        block = max(1, int(2 + k * 40))
-        small = layer.resize((W // block, H // block), Image.BILINEAR)
-        grey = small.convert("L").convert("RGB")
-        small = Image.blend(small, grey, k)
-        layer = small.resize((W, H), Image.NEAREST)
-    g = random.Random(int(t * 15))
-    for _ in range(int(k * 14)):
-        sy, sh = g.randint(0, H - 40), g.randint(4, 40)
-        band = layer.crop((0, sy, W, sy + sh))
-        layer.paste(band, (g.randint(-120, 120), sy))
-    img.paste(layer, (0, 0))
-
-
-def feed_fast(img, t, dur):
-    feed(img, t + 9.0, dur)
+def logo(img, t, dur):
+    # the ouroboros: fades and scales in, turns slowly, embers rise behind it
+    global _LOGO
+    if _LOGO is None:
+        import make_logo
+        _LOGO = make_logo.draw_logo().resize((640, 640), Image.LANCZOS)
+    embers(img, t + 40, dur)
+    k = ease(t / 2.5)
+    size = int(640 * (0.86 + 0.14 * k))
+    lg = _LOGO.rotate(-t * 4, resample=Image.BICUBIC).resize((size, size), Image.LANCZOS)
+    a = lg.split()[3].point(lambda v: int(v * k))
+    img.paste(lg, (W // 2 - size // 2, 420 - size // 2), a)
 
 
 BACKGROUNDS = {
     "feed": feed, "clones": clones, "scan": scan, "pulse": pulse, "ink": ink,
     "fp_draw": fingerprint_draw, "fp_hold": fingerprint_hold, "closing": closing,
-    "fp_glitch": fingerprint_glitch, "feed_fast": feed_fast, "flatline": flatline,
+    "logo": logo,
 }
