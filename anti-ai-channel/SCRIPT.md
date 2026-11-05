@@ -1,135 +1,92 @@
-# "MADE BY HANDS" — Channel Statement Video
+# "MADE BY NO ONE": Channel Statement Video
 
-**Format:** Manifesto / statement piece (channel trailer + first upload)
-**Runtime:** ~2:00
-**Tone:** Quiet, then rising. Not angry at people, but firm about what we value.
-**Visual style:** Black screen, stark white type, one warm accent color (ember orange). No stock footage, no AI imagery. Optional B-roll: real hands working (your own hands writing, drawing, playing an instrument, kneading dough).
+**Concept:** An anti-AI channel made entirely by AI, and open about it. The video plays like a sincere, human manifesto, then reveals that no human made any of it. The irony *is* the argument: if a machine can make you feel this, how would you ever know what's real?
+**Format:** Manifesto with a twist (channel trailer + first upload)
+**Runtime:** ~2:18
+**Visual style:** Black screen, white type, one ember-orange accent. Every visual is generated.
 
-> **VO** = voiceover (record it yourself, in your own voice, that's the point)
-> **ON SCREEN** = text that appears in the video
-
----
-
-## COLD OPEN (0:00 – 0:15)
-
-*[Black. Silence. A low hum fades in.]*
-
-**ON SCREEN:** `Everything you saw today`
-**ON SCREEN:** `might have been made by no one.`
-
-**VO:**
-Scroll for five minutes. The faces, the voices, the art, the "stories." How much of it did a person actually make?
-
-You don't know. Nobody does anymore.
-
-*[Beat. Hum cuts out.]*
+> **VO** = voiceover (an AI voice fits the concept, and the reveal works even better if it sounds warm and human)
+> **ON SCREEN** = text in the video
 
 ---
 
-## THE PROBLEM (0:15 – 0:45)
+## ACT 1: THE MANIFESTO (0:00 – 1:15)
+*Play it completely straight. The audience should believe a person made this.*
 
-**ON SCREEN (one line at a time):**
-`Art with no artist.`
-`Songs with no singer.`
-`Words with no one behind them.`
+**ON SCREEN:** `Everything you saw today` / `might have been made by no one.`
+*Visual: an endless feed of grey, faceless content cards, scrolling faster and glitching.*
 
-**VO:**
-We were promised tools. What we got is a flood. Endless content that costs nothing to make, so it means nothing to see. It's trained on the work of real people, usually without asking them, and then it's sold back to us as if it were new.
+**VO:** Scroll for five minutes. The faces, the voices, the art, the "stories." How much of it did a person actually make? You don't know. Nobody does anymore.
 
-Meanwhile the people who actually make things, the illustrators, the musicians, the writers, the voice actors, get told to compete with a machine that never sleeps, never gets paid, and never had anything to say.
+**ON SCREEN:** `Art with no artist.` / `Songs with no singer.` / `Words with no one behind them.`
+*Visual: one blank face, copied until it fills the screen.*
 
----
+**VO:** We were promised tools. What we got is a flood. Content that costs nothing to make, so it means nothing to see.
 
-## THE TURN (0:45 – 1:15)
+**ON SCREEN:** `Trained on our work.` / `Without asking.` / `Sold back to us as new.`
+*Visual: colourful hand-drawn scribbles scanned into grey pixels.*
 
-*[Music shifts: a single real instrument if you can record one. Piano, guitar, anything.]*
+**VO:** It learned from real artists, writers, and musicians, usually without asking them, and now it competes with them.
 
-**ON SCREEN:** `But here's what they can't automate.`
+**ON SCREEN:** `But here's what` / `they can't automate.`
+*Visual: a flat line that starts to beat like a heart.*
 
-**VO:**
-A machine can copy a style. It can't live a life.
+**ON SCREEN:** `The mistakes.` / `The effort.` / `The person.` / `That's the point.`
+*Visual: a wobbly hand-drawn ink line, leaving orange ink blots.*
 
-It doesn't know what it's like to stay up until 3 a.m. fixing one chord. It's never been heartbroken and written about it. It's never failed, tried again, and gotten a little bit better.
-
-That struggle isn't a bug in human art. **It is the art.**
-
-**ON SCREEN:**
-`The mistakes.`
-`The effort.`
-`The person.`
-`That's the point.`
+**VO:** A machine can copy a style. It can't live a life. It's never stayed up until 3 a.m. fixing one chord. It's never been heartbroken. That struggle isn't a flaw in human art. It *is* the art.
 
 ---
 
-## THE STATEMENT (1:15 – 1:45)
+## ACT 2: THE REVEAL (1:16 – 2:01)
 
-**ON SCREEN:** `This channel is a promise.`
+**ON SCREEN:** `Something only a human could make.`
+*Visual: a fingerprint draws itself, ridge by ridge.*
 
-**VO:**
-So here's what this channel is.
+*[Music cuts to silence.]*
 
-Every word you hear here was written by a person.
-Every voice you hear is a real human voice.
-Every image is drawn, photographed, or filmed by someone who was there.
+**ON SCREEN:** `Except` / `no human made this.`
+*Visual: the fingerprint breaks down into grey machine pixels.*
 
-No generated scripts. No synthetic voices. No AI thumbnails. No shortcuts.
+**VO (same warm voice, slower):** Except no human made this.
 
-We'll talk about what AI is doing to creative work, to jobs, to the truth, and we'll celebrate the people still making things the hard way.
+**ON SCREEN:** `The script. The visuals. The music.` / `All AI.` / `Minutes, not months.`
+*Visual: the content feed returns, faster.*
 
-**ON SCREEN (stacked, one at a time):**
-`100% human-written.`
-`100% human-voiced.`
-`100% human-made.`
+**VO:** The words you just heard. The images. The song. The voice talking to you right now. All of it was generated. It took minutes.
 
----
+**ON SCREEN:** `And you felt something anyway.` / `That's the problem.`
+*Visual: the heartbeat line returns... and flatlines. A monitor tone holds.*
 
-## CLOSE / CALL TO ACTION (1:45 – 2:00)
-
-**VO:**
-If you're tired of being fed content made by no one, for no one, stay.
-
-Subscribe. Share something a real person made today. And tell them it mattered.
-
-Because it does.
-
-**ON SCREEN:** `MADE BY HANDS.`
-**ON SCREEN (small):** `Subscribe. Stay human.`
-
-*[Hum fades. Black.]*
+**VO:** And you felt something anyway. That's the problem.
 
 ---
 
-## Visuals in the rendered video
+## CLOSE (2:02 – 2:18)
 
-All drawn with code (`visuals.py`), with no stock footage and no AI imagery:
+**ON SCREEN:** `MADE BY NO ONE.`
+**ON SCREEN (small):** `An anti-AI channel. Made entirely by AI.`
 
-| Section | Visual | What it means |
-|---|---|---|
-| Cold open | Endless feed of grey, faceless content cards, speeding up and glitching | The flood |
-| Art with no artist | One blank face copied until it fills the screen | Sameness, no one behind it |
-| Trained on our work | Colourful hand-drawn scribbles scanned into grey pixels | Human work absorbed |
-| Can't automate | A flat line that starts to beat like a heart | The human pulse |
-| Mistakes / effort / person | A wobbly hand-drawn ink line with orange ink blots | Imperfection is the point |
-| The promise | A fingerprint drawn ridge by ridge | Identity, a human mark |
-| 100% human | Fingerprint glowing with a heartbeat, embers rising | The promise held |
-| Close | Fading fingerprint + embers behind MADE BY HANDS | Sign-off |
+**VO:** This channel will use the machine to show you what the machine is doing. Every video, made by no one. Subscribe, and learn to tell the difference while you still can.
 
-Best upgrade: intercut real footage of **your own hands** (writing, drawing, playing) between sections.
+---
 
-## Production notes
+## Making the concept work
 
-- **Read this first: make it yours before you post it.** This draft was written with an AI assistant. The video says "100% human-written," so put the script into your own words (rewrite it, cut lines, add your own story) before you make that claim. If an anti-AI channel gets caught using AI, it rarely recovers. Treat this as a structure and starting point, not final copy.
-- **Record the VO yourself.** For an anti-AI channel, your real voice is your credibility. Rough edges are fine. They help.
-- **Show your process.** A 10-second timelapse of you writing this script by hand or editing the video is great proof and great B-roll.
-- **Avoid unverifiable stats.** Critics will go after any number you can't source. If you add statistics later, cite them on screen and in the description.
-- **Punch at systems, not people.** Criticize companies, practices, and the flood of slop. Don't attack individual viewers who use AI tools. That keeps the channel growing instead of becoming a niche rant.
+- **The disclosure is the concept, so never break it.** The reveal only lands if the channel is always honest about being AI-made. Put "Made entirely with AI" in every description. If you ever pass AI work off as human, the irony turns into the thing you're criticising.
+- **Use YouTube's "altered or synthetic content" setting** when uploading anything realistic (an AI voice that sounds human, realistic AI faces). It's required for realistic content, and it fits your brand anyway.
+- **Avoid being flagged as "inauthentic content."** YouTube demonetises channels that look mass-produced and repetitive. Vary formats, and keep a clear point of view in every video. The concept gives you one, so lean into it.
+- **Avoid unverifiable stats** and **criticise systems, not individual viewers.**
 
-## Suggested titles
+## Video ideas for the series
 
-1. *This Channel Is 100% Human. Here's Why That Matters.*
-2. *Made By No One: The Problem With AI Content*
-3. *I Refuse to Let a Machine Make My Art*
+1. *I Made a Song With AI in 30 Seconds. Here's Who It Stole From.*
+2. *This Video Is Fake. Can You Tell Which Part?* (a detection challenge)
+3. *AI Wrote an Apology to Artists*
+4. *Same Prompt, 100 Times: The Sameness Problem*
 
-## Suggested description
+## Suggested title and description
 
-> Everything on this channel is written, voiced, and made by a real person. No AI scripts, no synthetic voices, no generated images. This is a space for people who still believe human work matters. Subscribe and stay human.
+**Title:** *This Anti-AI Video Was Made By AI*
+
+> Every word, image, voice, and note in this video was generated by AI. That's the point. If a machine can make an anti-AI manifesto that moves you, what else is it making that you can't spot? This channel uses AI to expose AI. Made by no one. Subscribe.
