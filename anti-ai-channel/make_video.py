@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the channel statement video (kinetic typography + ambient drone).
+"""Render the AINTIA channel statement video (kinetic typography + ambient drone).
 
 Usage:  python3 make_video.py [output.mp4]
 Needs:  Pillow, ffmpeg on PATH.
@@ -19,13 +19,15 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import visuals
 
 W, H, FPS = 1920, 1080, 30
-BG = (8, 8, 9)
-WHITE = (240, 238, 232)
-GREY = (120, 118, 114)
-EMBER = (255, 112, 40)
+BG = (13, 13, 13)          # AINTIA background #0D0D0D
+WHITE = (255, 255, 255)    # primary
+GREY = (120, 120, 120)
+EMBER = (116, 127, 103)    # AINTIA accent (sage #747F67)
 
-FONT_BOLD = "/usr/share/fonts/opentype/inter/InterDisplay-Bold.otf"
-FONT_BLACK = "/usr/share/fonts/opentype/inter/Inter-ExtraBold.otf"
+import os as _os
+_BRAND_FONTS = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "brand", "fonts")
+FONT_BOLD = _os.path.join(_BRAND_FONTS, "Montserrat-500.ttf")     # primary typeface
+FONT_BLACK = _os.path.join(_BRAND_FONTS, "Montserrat-600.ttf")
 FONT_LIGHT = "/usr/share/fonts/opentype/inter/Inter-ExtraLight.otf"
 
 _font_cache = {}
@@ -89,8 +91,7 @@ SCENES = [
     ]),
     # CLOSE
     (105.0, 120.0, [
-        L(" ", 0.0, 560),  # spacer: the ouroboros logo sits above the text
-        L("Subscribe. Stay human.", 4.0, 48, FONT_LIGHT, color=GREY),
+        L(" ", 0.0, 10),  # the AINTIA lockup is drawn by the "logo" background
     ]),
 ]
 DURATION = 122.0

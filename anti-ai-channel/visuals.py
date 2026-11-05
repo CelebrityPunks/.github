@@ -10,8 +10,8 @@ import random
 from PIL import Image, ImageDraw, ImageFilter
 
 W, H = 1920, 1080
-EMBER = (255, 112, 40)
-EMBER_DIM = (120, 52, 20)
+EMBER = (150, 162, 134)      # AINTIA sage (lightened for glow on black)
+EMBER_DIM = (70, 78, 60)
 rng = random.Random(42)
 
 
@@ -322,18 +322,19 @@ _LOGO = None
 
 
 def logo(img, t, dur):
-    # the ouroboros: fades and scales in, turns slowly, embers rise behind it
+    # AINTIA primary lockup: fades and settles in, sage embers drift behind it
     global _LOGO
     if _LOGO is None:
         import os
-        src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logo", "ouroboros_4096.png")
-        _LOGO = Image.open(src).convert("RGBA").resize((800, 800), Image.LANCZOS)
+        src = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "brand", "png", "aintia_primary_white_3000.png")
+        _LOGO = Image.open(src).convert("RGBA").resize((980, 980), Image.LANCZOS)
     embers(img, t + 40, dur)
     k = ease(t / 2.5)
-    size = int(800 * (0.86 + 0.14 * k))
-    lg = _LOGO.rotate(-t * 4, resample=Image.BICUBIC).resize((size, size), Image.LANCZOS)
+    size = int(980 * (0.94 + 0.06 * k))
+    lg = _LOGO.resize((size, size), Image.LANCZOS)
     a = lg.split()[3].point(lambda v: int(v * k))
-    img.paste(lg, (W // 2 - size // 2, 420 - size // 2), a)
+    img.paste(lg, (W // 2 - size // 2, H // 2 - size // 2 - 40), a)
 
 
 BACKGROUNDS = {
